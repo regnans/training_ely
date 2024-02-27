@@ -1,0 +1,26 @@
+---
+title: "Intro to Quarto"
+format: html
+---
+
+# Big header
+
+#### Fourth header
+
+**A bold list**
+
+1.  fog
+
+2.  rain
+
+-   mist
+
+3.  snow
+
+-   graupel
+
+```{r}
+x<-4*8
+height_ft <- c(5.2, 6.0,5.7)
+height_ft
+```
