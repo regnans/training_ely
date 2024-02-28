@@ -6,12 +6,12 @@ editor: visual
 
 ## Course Lessons
 
-- [Introduction to Literate Analysis Using Quarto](literate-analysis.html) 
-- [Cleaning and Wrangling data](cleaning-wrangling.html)
-- Data Visualization
-- Functions and packages
+-   [Introduction to Literate Analysis Using Quarto](literate-analysis.html)
+-   [Cleaning and Wrangling data](cleaning-wrangling.html)
+-   [Data Visualization](data-viz.html)
+-   Functions and packages
 
 ## Course Practice Session
 
-- Practice I: Cleaning and Wrnagling and Data Viz
-- Practice II: Writing functions
+-   Practice I: Cleaning and Wrnagling and Data Viz
+-   Practice II: Writing functions
