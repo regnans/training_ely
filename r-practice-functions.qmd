@@ -35,3 +35,28 @@ egg_measures <- read_csv("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auu
 
 ```
 
+## Look at data
+```{r}
+colnames(egg_measures)
+colnames(nest_data)
+colnames(predator_survey)
+unique(egg_measures$species)
+```
+
+## Code to assign species code into common name
+This cpde will take the species table, and add a new column to the predator survey table using join. The predator table will be the left table, and we want a left join to only add species that are in the predator table. 
+```{r}
+glimpse(predator_survey)
+colnames(species)
+predator_survey <- left_join(predator_survey, species, join_by(species == alpha_code))
+```
+
+## Function to assign species code into common name
+This function will take the species table, and add a new column to any data table using join. The data table will be the left table, and we want a left join to only add species that are in the data table. 
+```{r}
+trans_sp_code <- function(data_table){
+  data_table <- left_join(data_table, species, join_by(species == alpha_code))
+}
+predator_survey <- left_join(predator_survey, species, join_by(species == alpha_code))
+```
+
