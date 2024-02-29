@@ -3,6 +3,10 @@ title: "Arctic Data Center Data Science Training"
 format: html
 editor: visual
 ---
+```{r}
+library(mytools)
+
+```
 
 ## Course Lessons
 
