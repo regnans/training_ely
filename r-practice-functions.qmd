@@ -55,8 +55,14 @@ predator_survey <- left_join(predator_survey, species, join_by(species == alpha_
 This function will take the species table, and add a new column to any data table using join. The data table will be the left table, and we want a left join to only add species that are in the data table. 
 ```{r}
 trans_sp_code <- function(data_table){
-  data_table <- left_join(data_table, species, join_by(species == alpha_code))
+  comm_names <- left_join(data_table, species, join_by(species == alpha_code))
+  return(comm_names)
 }
-predator_survey <- left_join(predator_survey, species, join_by(species == alpha_code))
+```
+
+## Run function
+```{r}
+nest_data <- trans_sp_code(nest_data)
+glimpse(nest_data)
 ```
 
