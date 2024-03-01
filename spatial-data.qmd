@@ -31,7 +31,7 @@ file.remove('shapefile_demo_data.zip')
 ak_regions <- read_sf("data/ak_regions_simp.shp")
 # quick plot
 plot(ak_regions)
-# note, something weird going on with map. To look at that...
+# note, something weird going on with map. To look at that... (answer: data not projected)
 class(ak_regions)
 head(ak_regions)
 glimpse(ak_regions)
@@ -42,4 +42,77 @@ glimpse(ak_regions)
 st_crs(ak_regions)
 
 ```
+
+## transforming projection to Alaska Albers (good for Alaska maps)
+```{r}
+ak_regions_3338 <- ak_regions %>%
+    st_transform(crs = 3338)
+
+st_crs(ak_regions_3338)
+plot(ak_regions_3338)
+
+```
+
+## "sf' and Tidyverse (suite of packages, ggplot, dplyr, others...)
+Selecting region column
+```{r}
+# check colnames
+colnames(ak_regions_3338)
+# select region, note that geometry column is sticky, and is always there
+ak_regions_3338 %>% 
+  select(region)
+```
+
+Filtering a region
+```{r}
+# check what regions are
+unique(ak_regions_3338$region)
+# filter (but not creating an output here)
+ak_regions_3338 %>% 
+  filter(region == "Southeast")
+
+```
+
+# Spatial joins
+Calculating the total population of each Alaska region
+1. Read population data
+```{r}
+pop <- read_csv("data/alaska_population.csv")
+head(pop)
+```
+
+2. Transform pop into spatial object (crs code for WG084 is 4326). remove = F is don't remove lat, lon columns. 
+```{r}
+pop_4326 <- st_as_sf(pop,
+                     coords = c('lng', 'lat'),
+                     crs = 4326,
+                     remove = F)
+
+head(pop_4326)
+class(pop_4326)
+```
+
+3. Join population data with Alaska region (first throws a projection error: crs not equal)
+```{r}
+pop_joined <- st_join(pop_4326, 
+                      ak_regions_3338, 
+                      join = st_within)
+```
+
+Transform pop data to Alaska Albers projection
+```{r}
+pop_3338 <- st_transform(pop_4326, 
+                         crs = 3338)
+# check projection
+st_crs(pop_3338)
+
+# execute join of spatial objects
+pop_joined <- st_join(pop_3338, 
+                      ak_regions_3338, 
+                      join = st_within)
+head(pop_joined)
+
+```
+
+Plot population on regions map
 
