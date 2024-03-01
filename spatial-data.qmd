@@ -106,11 +106,33 @@ pop_3338 <- st_transform(pop_4326,
 # check projection
 st_crs(pop_3338)
 
-# execute join of spatial objects
+# execute join of spatial objects. st_join is left join
 pop_joined <- st_join(pop_3338, 
                       ak_regions_3338, 
                       join = st_within)
 head(pop_joined)
+
+```
+
+Calculate total population by region (transform spatial data into data frame to apply other functions, loses spatial information)
+```{r}
+pop_region <- pop_joined %>%
+    as.data.frame() %>%
+    group_by(region) %>%
+    summarise(total_pop = sum(population))
+
+head(pop_region)
+```
+
+Include spatial information by joining
+```{r}
+pop_region_3338 <- left_join(ak_regions_3338, 
+                             pop_region, 
+                             by = "region")
+head(pop_region_3338)
+
+# plot to check
+plot(pop_region_3338["total_pop"])
 
 ```
 
