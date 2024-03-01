@@ -136,5 +136,30 @@ plot(pop_region_3338["total_pop"])
 
 ```
 
-Plot population on regions map
+New summary of pop data by management area, add do_union = F to stop uniting the polygons
+```{r}
+pop_mgmt_3338 <- pop_region_3338 %>%
+    group_by(mgmt_area) %>%
+    summarize(total_pop = sum(total_pop), do_union = F)
+
+
+plot(pop_mgmt_3338["total_pop"])
+```
+
+Save spatial object
+```{r}
+write_sf(pop_region_3338, "data/ak_regions_population.shp")
+```
+
+Make it nicer in ggplot, using geom_sf
+```{r}
+ggplot(pop_region_3338) +
+    geom_sf(aes(fill = total_pop)) +
+    labs(fill = "Total Population") +
+    scale_fill_continuous(low = "khaki",
+                          high =  "firebrick",
+                          labels = comma) +
+    theme_bw()
+
+```
 
