@@ -1,0 +1,45 @@
+---
+title: "Working with spatial data"
+author: "Kim Ely"
+format: html
+---
+## Load libraries
+```{r}
+library(readr)
+library(sf)
+library(ggplot2)
+library(leaflet)
+library(scales)
+library(ggspatial)
+library(dplyr)
+```
+
+## Download data 
+```{r}
+knb_url <- "https://dev.nceas.ucsb.edu/knb/d1/mn/v2/object/urn%3Auuid%3Aaceaecb2-1ce0-4d41-a839-d3607d32bb58"
+
+download.file(url = knb_url, destfile = 'shapefile_demo_data.zip')
+
+unzip('shapefile_demo_data.zip', exdir = 'data')
+
+file.remove('shapefile_demo_data.zip')
+```
+
+## Read data
+```{r}
+# read in shapefile using read_sf()
+ak_regions <- read_sf("data/ak_regions_simp.shp")
+# quick plot
+plot(ak_regions)
+# note, something weird going on with map. To look at that...
+class(ak_regions)
+head(ak_regions)
+glimpse(ak_regions)
+```
+
+## Checking crs of spatial data
+```{r}
+st_crs(ak_regions)
+
+```
+
